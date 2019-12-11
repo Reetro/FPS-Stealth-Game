@@ -28,8 +28,14 @@ protected:
   UPROPERTY(VisibleAnywhere, Category = "Components")
   USphereComponent* SphereCom = nullptr;
 
+  UPROPERTY(EditDefaultsOnly, Category = "FX")
+  UParticleSystem* PickFX;
+
+  void PlayEffect();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+  virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };
