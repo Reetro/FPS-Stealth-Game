@@ -4,6 +4,7 @@
 #include "FPSObjectiveActor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
+#include "FPSCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -43,6 +44,14 @@ void AFPSObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)
   Super::NotifyActorBeginOverlap(OtherActor);
 
   PlayEffect();
+
+  AFPSCharacter* MyCharacter = Cast<AFPSCharacter>(OtherActor);
+  if (MyCharacter)
+  {
+    MyCharacter->bIsCarryingObjective = true;
+
+    Destroy();
+  }
 }
 
 void AFPSObjectiveActor::PlayEffect()
