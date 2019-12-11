@@ -34,6 +34,5 @@ protected:
   void PlayEffect();
 
 public:	
-
   virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };
