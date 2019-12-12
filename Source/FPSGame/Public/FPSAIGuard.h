@@ -36,6 +36,12 @@ protected:
   UPROPERTY(EditInstanceOnly, Category = "Patrol Settings", meta = (EditCondition = "bPatrol"))
   AActor* PatrolPoint2 = nullptr;
 
+  UPROPERTY(EditInstanceOnly, Category = "Patrol Settings", meta = (EditCondition = "bPatrol"))
+  float AcceptanceRadius = 60.0f;
+
+  UPROPERTY(EditInstanceOnly, Category = "Patrol Settings", meta = (EditCondition = "bPatrol"))
+  bool bShowAcceptanceRadiusDebug = false;
+
   // The current point the guard is moving to
   AActor* CurrentPoint;
 
