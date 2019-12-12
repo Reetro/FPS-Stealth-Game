@@ -5,6 +5,7 @@
 #include "FPSCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
+
 AFPSGameMode::AFPSGameMode()
 {
 	// set default pawn class to our Blueprinted character
@@ -13,4 +14,14 @@ AFPSGameMode::AFPSGameMode()
 
 	// use our custom HUD class
 	HUDClass = AFPSHUD::StaticClass();
+}
+
+void AFPSGameMode::CompletedMission(APawn* InstigatorPawn)
+{
+  if (InstigatorPawn)
+  {
+    InstigatorPawn->DisableInput(nullptr);
+  }
+
+  OnMissionComplete(InstigatorPawn);
 }
