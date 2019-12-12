@@ -3,6 +3,7 @@
 
 #include "FPSAIGuard.h"
 #include "Perception/PawnSensingComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AFPSAIGuard::AFPSAIGuard()
@@ -17,7 +18,24 @@ AFPSAIGuard::AFPSAIGuard()
 void AFPSAIGuard::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+  PawnSensingComponent->OnSeePawn.AddDynamic(this, &AFPSAIGuard::OnPawnSeen);
+  PawnSensingComponent->OnHearNoise.AddDynamic(this, &AFPSAIGuard::OnHearNoise);
+}
+
+void AFPSAIGuard::OnPawnSeen(APawn* SeenPawn)
+{
+  if (!SeenPawn)
+  {
+    return;
+  }
+
+  DrawDebugSphere(GetWorld(), SeenPawn->GetActorLocation(), 32.0f, 12, FColor::Red, false, 10.0f);
+}
+
+void AFPSAIGuard::OnHearNoise(APawn* NoiseInstigator, const FVector& Location, float Volume)
+{
+  DrawDebugSphere(GetWorld(), Location, 32.0f, 12, FColor::Green, false, 10.0f);
 }
 
 // Called every frame

@@ -7,6 +7,7 @@
 #include "FPSAIGuard.generated.h"
 
 class UPawnSensingComponent;
+class APawn;
 
 UCLASS()
 class FPSGAME_API AFPSAIGuard : public ACharacter
@@ -19,6 +20,12 @@ protected:
 
   UPROPERTY(VisibleAnywhere, Category = "Components")
   UPawnSensingComponent* PawnSensingComponent = nullptr;
+
+  UFUNCTION()
+  void OnPawnSeen(APawn* SeenPawn);
+
+  UFUNCTION()
+  void OnHearNoise(APawn* NoiseInstigator, const FVector& Location, float Volume);
 
 public:	
 	// Called every frame
