@@ -37,6 +37,9 @@ protected:
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
   UPawnNoiseEmitterComponent* NoiseEmitterComponent;
 
+  UFUNCTION(Server, Reliable, WithValidation)
+  void ServerFire();
+
 public:
 	AFPSCharacter();
 
