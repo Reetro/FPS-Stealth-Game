@@ -4,6 +4,8 @@
 #include "FPSHUD.h"
 #include "FPSCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
+
 
 
 AFPSGameMode::AFPSGameMode()
@@ -21,6 +23,30 @@ void AFPSGameMode::CompletedMission(APawn* InstigatorPawn)
   if (InstigatorPawn)
   {
     InstigatorPawn->DisableInput(nullptr);
+
+    if (SpectatingViewportClass)
+    {
+      TArray<AActor*> ReturnedActors;
+
+      UGameplayStatics::GetAllActorsOfClass(this, SpectatingViewportClass, ReturnedActors);
+
+      // If SpectatingViewportClass exists then change camera to new spectating camera on mission complete
+      if (ReturnedActors.Num() > 0)
+      {
+        AActor* NewViewTarget = ReturnedActors[0];
+
+        APlayerController* PC = Cast<APlayerController>(InstigatorPawn->GetController());
+
+        if (PC)
+        {
+          PC->SetViewTargetWithBlend(NewViewTarget, 1.f, EViewTargetBlendFunction::VTBlend_Cubic);
+        }
+      }
+    }
+    else 
+    {
+      UE_LOG(LogTemp, Warning, TEXT("No SpectatingViewportClass please select one in the Gamemode BP"))
+    }
   }
 
   OnMissionComplete(InstigatorPawn);
