@@ -15,6 +15,8 @@ AFPSAIGuard::AFPSAIGuard()
 	PrimaryActorTick.bCanEverTick = true;
 
   PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("SensingComponent"));
+
+  GuardState = EAIState::Idle;
 }
 
 // Called when the game starts or when spawned
@@ -42,10 +44,17 @@ void AFPSAIGuard::OnPawnSeen(APawn* SeenPawn)
   {
     GM->CompletedMission(SeenPawn, false);
   }
+
+  SetGuardState(EAIState::Alerted);
 }
 
 void AFPSAIGuard::OnHearNoise(APawn* NoiseInstigator, const FVector& Location, float Volume)
 {
+  if (GuardState == EAIState::Alerted)
+  {
+    return;
+  }
+
   DrawDebugSphere(GetWorld(), Location, 32.0f, 12, FColor::Green, false, 10.0f);
 
   FVector Direction = Location - GetActorLocation();
@@ -59,11 +68,32 @@ void AFPSAIGuard::OnHearNoise(APawn* NoiseInstigator, const FVector& Location, f
 
   GetWorldTimerManager().ClearTimer(TimmerHandel_RestRotation);
   GetWorldTimerManager().SetTimer(TimmerHandel_RestRotation, this, &AFPSAIGuard::ResetRotation, 3.0f);
+
+  SetGuardState(EAIState::Suspicious);
 }
 
 void AFPSAIGuard::ResetRotation()
 {
+  if (GuardState == EAIState::Alerted)
+  {
+    return;
+  }
+
   SetActorRotation(OrginalRotation);
+
+  SetGuardState(EAIState::Idle);
+}
+
+void AFPSAIGuard::SetGuardState(EAIState NewState)
+{
+  if (GuardState == NewState)
+  {
+    return;
+  }
+
+  GuardState = NewState;
+
+  OnStateChange(GuardState);
 }
 
 // Called every frame
