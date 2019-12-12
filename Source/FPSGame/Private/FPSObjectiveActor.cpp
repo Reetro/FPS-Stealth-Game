@@ -25,6 +25,8 @@ AFPSObjectiveActor::AFPSObjectiveActor()
 void AFPSObjectiveActor::BeginPlay()
 {
 	Super::BeginPlay();
+
+  PlayEffect();
 }
 
 void AFPSObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)
