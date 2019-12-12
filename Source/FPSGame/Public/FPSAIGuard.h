@@ -26,6 +26,21 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+  // Should the guard patrol between it's 2 points?
+  UPROPERTY(EditInstanceOnly, Category = "Patrol Settings")
+  bool bPatrol = false;
+
+  UPROPERTY(EditInstanceOnly, Category = "Patrol Settings", meta = (EditCondition = "bPatrol"))
+  AActor* PatrolPoint1 = nullptr;
+
+  UPROPERTY(EditInstanceOnly, Category = "Patrol Settings", meta = (EditCondition = "bPatrol"))
+  AActor* PatrolPoint2 = nullptr;
+
+  // The current point the guard is moving to
+  AActor* CurrentPoint;
+
+  void MoveToNextControlPoint();
+
   UPROPERTY(VisibleAnywhere, Category = "Components")
   UPawnSensingComponent* PawnSensingComponent = nullptr;
 
