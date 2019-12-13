@@ -52,7 +52,6 @@ void AFPSGameMode::CompletedMission(APawn* InstigatorPawn, bool bMissionSuccess)
   if (GS)
   {
     GS->MulticastOnMissionComplete(InstigatorPawn, bMissionSuccess);
-    UE_LOG(LogTemp, Log, TEXT("%s"), *GS->GetName())
   }
 
   OnMissionComplete(InstigatorPawn, bMissionSuccess);
@@ -61,8 +60,5 @@ void AFPSGameMode::CompletedMission(APawn* InstigatorPawn, bool bMissionSuccess)
 void AFPSGameMode::BeginPlay()
 {
   Super::BeginPlay();
-
   GameStateClass = AFPSGameState::StaticClass();
 }
-
-
