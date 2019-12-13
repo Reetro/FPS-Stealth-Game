@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "TimerManager.h"
 #include "FPSGameMode.h"
+#include "Net/UnrealNetwork.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 
 // Sets default values
@@ -108,6 +109,12 @@ void AFPSAIGuard::ResetRotation()
   }
 }
 
+// will only happen on client
+void AFPSAIGuard::OnRep_GuardState()
+{
+  OnStateChange(GuardState);
+}
+
 void AFPSAIGuard::SetGuardState(EAIState NewState)
 {
   if (GuardState == NewState)
@@ -116,8 +123,7 @@ void AFPSAIGuard::SetGuardState(EAIState NewState)
   }
 
   GuardState = NewState;
-
-  OnStateChange(GuardState);
+  OnRep_GuardState();
 }
 
 // Called every frame
@@ -157,4 +163,11 @@ void AFPSAIGuard::MoveToNextControlPoint()
     }
     UAIBlueprintHelperLibrary::SimpleMoveToActor(GetController(), CurrentPoint);
   }
+}
+
+void AFPSAIGuard::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+  Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+  DOREPLIFETIME(AFPSAIGuard, GuardState);
 }
