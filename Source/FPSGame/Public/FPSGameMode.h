@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "FPSGameState.h"
 #include "FPSGameMode.generated.h"
 
 UCLASS()
@@ -24,4 +25,6 @@ public:
 
   UFUNCTION(BlueprintImplementableEvent, Category = "GameMode")
   void OnMissionComplete(APawn* InstigatorPawn, bool bMissionSuccess);
+
+  virtual void BeginPlay() override;
 };

@@ -7,6 +7,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/PawnNoiseEmitterComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 
 
 AFPSCharacter::AFPSCharacter()
@@ -103,12 +104,10 @@ void AFPSCharacter::ServerFire_Implementation()
   }
 }
 
-
 bool AFPSCharacter::ServerFire_Validate()
 {
   return true;
 }
-
 
 void AFPSCharacter::MoveForward(float Value)
 {
@@ -119,7 +118,6 @@ void AFPSCharacter::MoveForward(float Value)
 	}
 }
 
-
 void AFPSCharacter::MoveRight(float Value)
 {
 	if (Value != 0.0f)
@@ -127,4 +125,11 @@ void AFPSCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
 	}
+}
+
+void AFPSCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+  Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+  DOREPLIFETIME(AFPSCharacter, bIsCarryingObjective);
 }
