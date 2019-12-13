@@ -5,6 +5,7 @@
 #include "Perception/PawnSensingComponent.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/Pawn.h"
 #include "TimerManager.h"
 #include "FPSGameMode.h"
 #include "Net/UnrealNetwork.h"
@@ -54,10 +55,10 @@ void AFPSAIGuard::OnPawnSeen(APawn* SeenPawn)
 
   SetGuardState(EAIState::Alerted);
 
-  AController* Controller = GetController();
-  if (Controller)
+  AController* AIController = GetController();
+  if (AIController)
   {
-    Controller->StopMovement();
+    AIController->StopMovement();
   }
 }
 
@@ -84,10 +85,10 @@ void AFPSAIGuard::OnHearNoise(APawn* NoiseInstigator, const FVector& Location, f
 
   SetGuardState(EAIState::Suspicious);
 
-  AController* Controller = GetController();
-  if (Controller)
+  AController* AIController = GetController();
+  if (AIController)
   {
-    Controller->StopMovement();
+    AIController->StopMovement();
   }
 }
 

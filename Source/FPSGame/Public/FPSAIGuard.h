@@ -7,7 +7,6 @@
 #include "FPSAIGuard.generated.h"
 
 class UPawnSensingComponent;
-class APawn;
 
 UENUM(BlueprintType)
 enum class EAIState : uint8 
